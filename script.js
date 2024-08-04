@@ -1,6 +1,6 @@
 // ---変数宣言---
 // HTML要素取得
-const titleElement = document.getElementById('title');
+const title = document.getElementById('title');
 const easyButton = document.getElementById('easy-button');
 const normalButton = document.getElementById('normal-button');
 const hardButton = document.getElementById('hard-button');
@@ -50,7 +50,7 @@ let presentTimeSeconds;
 let presentScore;
 let isPlaying = true;
 const defaultTopLeftNumInNextBlockDisplay = {top: 0, left: 0};
-const blockPattern = [
+const blocksPattern = [
     // {
     //     shape: [
     //         [0, 1, 0, 0],
@@ -122,15 +122,15 @@ const blockPattern = [
         topLeftNum: defaultTopLeftNumInNextBlockDisplay
     }
 ];
-let nextBlock;
-let fallingBlock;
+let nextBlocksObject;
+let fallingBlocksObject;
 const defaultTopLeftNumInGameDisplay = {top: 0, left: 3};
 let timeInterval;
 let arrayOfblocksInGameDisplay = [];
 const arrayRoomOfTop = 0;
 const arrayRoomOfBottom = 4;
 const arrayRoomofLeftAndRight = 3;
-let fallenBlocks = [];
+let fallenBlockObjects = [];
 let numberOfFallenBlocks = 0;
 
 
@@ -256,9 +256,9 @@ const resetArrayOfblocksInGameDisplay = () => {
 }
 
 const resetBlockObject = () => {
-    nextBlock = {};
-    fallingBlock = {};
-    fallenBlocks.splice(0, fallenBlocks.length);
+    nextBlocksObject = {};
+    fallingBlocksObject = {};
+    fallenBlockObjects.splice(0, fallenBlockObjects.length);
     return;
 }
 
@@ -277,24 +277,24 @@ const resetGame = () => {
 }
 
 const addTOArrayOfblocksInGameDisplay = () => {
-    const topNum = arrayRoomOfTop + fallingBlock.topLeftNum.top;
-    const leftNum = arrayRoomofLeftAndRight + fallingBlock.topLeftNum.left;
+    const topNum = arrayRoomOfTop + fallingBlocksObject.topLeftNum.top;
+    const leftNum = arrayRoomofLeftAndRight + fallingBlocksObject.topLeftNum.left;
     for (let i = 0; i < blockArrayLnegth; i++){
         for (let j = 0; j < blockArrayLnegth; j++){
             arrayOfblocksInGameDisplay[topNum + i][leftNum + j] 
-                += fallingBlock.shape[i][j];
+                += fallingBlocksObject.shape[i][j];
         }
     }
     return;
 }
 
 const removeFromArrayOfblocksInGameDisplay = () => {
-    const topNum = arrayRoomOfTop + fallingBlock.topLeftNum.top;
-    const leftNum = arrayRoomofLeftAndRight + fallingBlock.topLeftNum.left;
+    const topNum = arrayRoomOfTop + fallingBlocksObject.topLeftNum.top;
+    const leftNum = arrayRoomofLeftAndRight + fallingBlocksObject.topLeftNum.left;
     for (let i = 0; i < blockArrayLnegth; i++){
         for (let j = 0; j < blockArrayLnegth; j++){
             arrayOfblocksInGameDisplay[topNum + i][leftNum + j] 
-            -= fallingBlock.shape[i][j];
+            -= fallingBlocksObject.shape[i][j];
         }
     }
     return;
@@ -343,8 +343,8 @@ const putBlockOnDisplay = (block, display) => {
 
 const generateNextBlock = () => {
     nextBlockDisplay.innerHTML = "";
-    nextBlock = blockPattern[Math.floor(Math.random() * blockPattern.length)];
-    putBlockOnDisplay(nextBlock, nextBlockDisplay);
+    nextBlocksObject = blocksPattern[Math.floor(Math.random() * blocksPattern.length)];
+    putBlockOnDisplay(nextBlocksObject, nextBlockDisplay);
     return;
 }
 
@@ -373,10 +373,10 @@ const arrayHasTwo = () => {
 }
 
 const convertNextBlockToFallingBlock = () => {
-    fallingBlock = nextBlock;
-    fallingBlock.topLeftNum.top = defaultTopLeftNumInGameDisplay.top;
-    fallingBlock.topLeftNum.left = defaultTopLeftNumInGameDisplay.left;
-    putBlockOnDisplay(fallingBlock, gameDisplay);
+    fallingBlocksObject = nextBlocksObject;
+    fallingBlocksObject.topLeftNum.top = defaultTopLeftNumInGameDisplay.top;
+    fallingBlocksObject.topLeftNum.left = defaultTopLeftNumInGameDisplay.left;
+    putBlockOnDisplay(fallingBlocksObject, gameDisplay);
     addTOArrayOfblocksInGameDisplay();
     let isGameOver = arrayHasTwo();
     if (isGameOver) {
@@ -387,42 +387,42 @@ const convertNextBlockToFallingBlock = () => {
 
 const updateArrayOfblocksInGameDisplayWithMoveDown = () => {
     removeFromArrayOfblocksInGameDisplay();
-    fallingBlock.topLeftNum.top += 1;
+    fallingBlocksObject.topLeftNum.top += 1;
     addTOArrayOfblocksInGameDisplay();
     return;
 }
 
 const downgradeArrayOfblocksInGameDisplayWithMoveDown = () => {
     removeFromArrayOfblocksInGameDisplay();
-    fallingBlock.topLeftNum.top -= 1;
+    fallingBlocksObject.topLeftNum.top -= 1;
     addTOArrayOfblocksInGameDisplay();
     return;
 }
 
 const updateArrayOfblocksInGameDisplayWithMoveLeft = () => {
     removeFromArrayOfblocksInGameDisplay();
-    fallingBlock.topLeftNum.left -= 1;
+    fallingBlocksObject.topLeftNum.left -= 1;
     addTOArrayOfblocksInGameDisplay();
     return;
 }
 
 const downgradeArrayOfblocksInGameDisplayWithMoveLeft = () => {
     removeFromArrayOfblocksInGameDisplay();
-    fallingBlock.topLeftNum.left += 1;
+    fallingBlocksObject.topLeftNum.left += 1;
     addTOArrayOfblocksInGameDisplay();
     return;
 }
 
 const updateArrayOfblocksInGameDisplayWithMoveRight = () => {
     removeFromArrayOfblocksInGameDisplay();
-    fallingBlock.topLeftNum.left += 1;
+    fallingBlocksObject.topLeftNum.left += 1;
     addTOArrayOfblocksInGameDisplay();
     return;
 }
 
 const downgradeArrayOfblocksInGameDisplayWithMoveRight = () => {
     removeFromArrayOfblocksInGameDisplay();
-    fallingBlock.topLeftNum.left -= 1;
+    fallingBlocksObject.topLeftNum.left -= 1;
     addTOArrayOfblocksInGameDisplay();
     return;
 }
@@ -436,12 +436,12 @@ const rotateFallingBlockShapeToLeft = () => {
     ];
     for (let i = 0; i < blockArrayLnegth; i++) {
         for (let j = 0; j < blockArrayLnegth; j++) {
-            if (fallingBlock.shape[i][j] === 1) {
+            if (fallingBlocksObject.shape[i][j] === 1) {
                 tempShape[3 - j][i] = 1;
             }
         }    
     }
-    fallingBlock.shape = tempShape;
+    fallingBlocksObject.shape = tempShape;
     return;
 }
 
@@ -454,12 +454,12 @@ const rotateFallingBlockShapeToRight = () => {
     ];
     for (let i = 0; i < blockArrayLnegth; i++) {
         for (let j = 0; j < blockArrayLnegth; j++) {
-            if (fallingBlock.shape[i][j] === 1) {
+            if (fallingBlocksObject.shape[i][j] === 1) {
                 tempShape[j][3 - i] = 1;
             }
         }    
     }
-    fallingBlock.shape = tempShape;
+    fallingBlocksObject.shape = tempShape;
     return;
 }
 
@@ -543,7 +543,7 @@ const removeFallingBlockFromDisplay = () => {
 
 const updateBlockOnDisplay = () => {
     removeFallingBlockFromDisplay();
-    putBlockOnDisplay(fallingBlock, gameDisplay);
+    putBlockOnDisplay(fallingBlocksObject, gameDisplay);
 }
 
 const moveDownFallingBlock = () => {
@@ -556,10 +556,10 @@ const moveDownFallingBlock = () => {
 
 const convertEachFallingBlockTofallenBlock = (topNum, leftNum) => {
     // オブジェクト書き換え
-    fallenBlocks.push({
-        topNum: fallingBlock.topLeftNum.top + topNum,
-        leftNum: fallingBlock.topLeftNum.left + leftNum,
-        color: fallingBlock.color,
+    fallenBlockObjects.push({
+        topNum: fallingBlocksObject.topLeftNum.top + topNum,
+        leftNum: fallingBlocksObject.topLeftNum.left + leftNum,
+        color: fallingBlocksObject.color,
         id: `fallen-block-${numberOfFallenBlocks}`
     });
     // HTML書き換え
@@ -574,7 +574,7 @@ const convertEachFallingBlockTofallenBlock = (topNum, leftNum) => {
 const convertFallingBlockTofallenBlock = () => {
     for (let i = 0; i < blockArrayLnegth; i++) {
         for (let j = 0; j < blockArrayLnegth; j++) {
-            if (fallingBlock.shape[i][j] === 1) {
+            if (fallingBlocksObject.shape[i][j] === 1) {
                 numberOfFallenBlocks += 1;
                 convertEachFallingBlockTofallenBlock(i, j);
             }
@@ -591,7 +591,7 @@ const delteteRowFromArray = (rowNum) => {
 }
 
 const deleteRowFromDisplay = (rowNum) => {
-    const fallenBlocksId = fallenBlocks
+    const fallenBlocksId = fallenBlockObjects
                             .filter(block => block.topNum === rowNum)
                             .map(block => block.id);
     const fallenBlockElements = document.querySelectorAll(".fallen-block");
@@ -602,7 +602,7 @@ const deleteRowFromDisplay = (rowNum) => {
 }
 
 const deleteRowFromObject = (rowNum) => {
-    fallenBlocks = fallenBlocks.filter(block => block.topNum !== rowNum);
+    fallenBlockObjects = fallenBlockObjects.filter(block => block.topNum !== rowNum);
     return;
 }
 
@@ -648,7 +648,7 @@ const moveFallenBlocksDownInDisplay = (ids) => {
 
 const moveFallenBlocksDownInObject = (rowNum) => {
     const ids = [];
-    fallenBlocks.filter(block => block.topNum < rowNum).forEach(block => {
+    fallenBlockObjects.filter(block => block.topNum < rowNum).forEach(block => {
         block.topNum += 1;
         ids.push(block.id);
         return;
