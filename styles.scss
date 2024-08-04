@@ -1,0 +1,134 @@
+// displayサイズは編集の過程で使用したのみ
+$game-display-width: 200px;
+$next-block-display-width: $game-display-width * 4 / 10;
+
+h1, p {
+    margin: 0;
+    padding: 0;
+}
+
+#title {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+#game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 7px solid grey;
+    border-radius: 5px;
+    background-color: lightgrey;
+    padding: 10px;
+    width: $game-display-width;
+    margin: 0 auto;
+    position: relative;
+}
+
+#game-display {
+    box-sizing: content-box;
+    width: $game-display-width;
+    height: $game-display-width * 1.5;
+    background-color: white;
+    margin-top: 10px;
+}
+
+#next-block-display {
+    box-sizing: content-box;
+    width: $next-block-display-width;
+    height: $next-block-display-width;
+    background-color: white;
+}
+
+#difficulty-button-container, #game-button-and-next-block
+, #game-information-container, #rotate-button-container, #move-button-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+    width: 100%;
+}
+
+#difficulty-button-container {
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+#game-button-and-next-block {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    align-items: center;
+}
+
+#game-button-container, #next-block-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#game-button-container, #rotate-button-container, #move-button-container {
+    gap: 5px;
+}
+
+.difficulty-button{
+    flex: 1;
+}
+
+#easy-button {
+    color: blue;
+}
+
+#normal-button {
+    color: black;
+}
+
+#hard-button {
+    color: red;
+}
+
+.game-button {
+    font-size: large;
+}
+
+#start-reset-button {
+    font-size: large;
+}
+
+#next-block-display, #game-display {
+    position: relative;
+}
+
+.block {
+    box-sizing: border-box;
+    border: 0.1px solid white;
+    position: absolute;
+}
+
+#game-over, #you-win {
+    position: absolute;
+    border: 1px solid black;
+    background-color: white;
+    padding: 20px;
+    z-index: 2;
+    visibility: hidden;
+}
+
+#game-over {
+    color: red;
+}
+
+#you-win {
+    color: red;
+}
+
+#move-down-button {
+    width: 100%;
+}
+
+
+
+
+
+
+
