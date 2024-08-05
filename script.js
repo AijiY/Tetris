@@ -300,20 +300,20 @@ const removeFromArrayOfblocksInGameDisplay = () => {
     return;
 }
 
-const topLeftCalculation = (topNum, leftNum, block, display) => {
+const topLeftCalculation = (topNum, leftNum, blocks, display) => {
     const topLeftPosition = {}; 
     if (display === nextBlockDisplay) {
         topLeftPosition.top = topNum * blockSize;
         topLeftPosition.left = leftNum * blockSize;
     } else {
-        topLeftPosition.top = (topNum + block.topLeftNum.top) * blockSize;
-        topLeftPosition.left = (leftNum + block.topLeftNum.left) * blockSize;
+        topLeftPosition.top = (topNum + blocks.topLeftNum.top) * blockSize;
+        topLeftPosition.left = (leftNum + blocks.topLeftNum.left) * blockSize;
     }
     return topLeftPosition;
 }
 
-const putEachBlockOnDisplay = (topNum, leftNum, block, display) => {
-    const topLeftPosition = topLeftCalculation(topNum, leftNum, block, display);
+const putEachBlockOnDisplay = (topNum, leftNum, blocks, display) => {
+    const topLeftPosition = topLeftCalculation(topNum, leftNum, blocks, display);
     // 対象のdisplayエレメントにblock要素を追加
     const displayType = display.getAttribute("id") === "next-block-display"
                         ? "next-block" : "falling-block";
@@ -326,25 +326,25 @@ const putEachBlockOnDisplay = (topNum, leftNum, block, display) => {
     eachBlock.style.height = blockSize.toString() + "px";
     eachBlock.style.top = topLeftPosition.top.toString() + "px";
     eachBlock.style.left = topLeftPosition.left.toString() + "px";
-    eachBlock.style.backgroundColor = block.color;
+    eachBlock.style.backgroundColor = blocks.color;
     return;
 }
 
-const putBlockOnDisplay = (block, display) => {
+const putBlocksOnDisplay = (blocks, display) => {
     for (let i = 0; i < blockArrayLnegth; i++) {
         for (let j = 0; j < blockArrayLnegth; j++) {
-            if (block.shape[i][j] === 1) {
-                putEachBlockOnDisplay(i, j, block, display);
+            if (blocks.shape[i][j] === 1) {
+                putEachBlockOnDisplay(i, j, blocks, display);
             }
         }    
     }
     return;
 }
 
-const generateNextBlock = () => {
+const generateNextBlocks = () => {
     nextBlockDisplay.innerHTML = "";
     nextBlocksObject = blocksPattern[Math.floor(Math.random() * blocksPattern.length)];
-    putBlockOnDisplay(nextBlocksObject, nextBlockDisplay);
+    putBlocksOnDisplay(nextBlocksObject, nextBlockDisplay);
     return;
 }
 
@@ -372,11 +372,11 @@ const arrayHasTwo = () => {
     return hasTwo;
 }
 
-const convertNextBlockToFallingBlock = () => {
+const convertNextBlocksToFallingBlocks = () => {
     fallingBlocksObject = nextBlocksObject;
     fallingBlocksObject.topLeftNum.top = defaultTopLeftNumInGameDisplay.top;
     fallingBlocksObject.topLeftNum.left = defaultTopLeftNumInGameDisplay.left;
-    putBlockOnDisplay(fallingBlocksObject, gameDisplay);
+    putBlocksOnDisplay(fallingBlocksObject, gameDisplay);
     addTOArrayOfblocksInGameDisplay();
     let isGameOver = arrayHasTwo();
     if (isGameOver) {
@@ -427,7 +427,7 @@ const downgradeArrayOfblocksInGameDisplayWithMoveRight = () => {
     return;
 }
 
-const rotateFallingBlockShapeToLeft = () => {
+const rotateFallingBlocksShapeToLeft = () => {
     let tempShape = [
         [0, 0, 0, 0],
         [0, 0, 0, 0],
@@ -445,7 +445,7 @@ const rotateFallingBlockShapeToLeft = () => {
     return;
 }
 
-const rotateFallingBlockShapeToRight = () => {
+const rotateFallingBlocksShapeToRight = () => {
     let tempShape = [
         [0, 0, 0, 0],
         [0, 0, 0, 0],
@@ -465,28 +465,28 @@ const rotateFallingBlockShapeToRight = () => {
 
 const updateArrayOfblocksInGameDisplayWithRotateLeft = () => {
     removeFromArrayOfblocksInGameDisplay();
-    rotateFallingBlockShapeToLeft();
+    rotateFallingBlocksShapeToLeft();
     addTOArrayOfblocksInGameDisplay();
     return;
 }
 
 const downgradeArrayOfblocksInGameDisplayWithRotateLeft = () => {
     removeFromArrayOfblocksInGameDisplay();
-    rotateFallingBlockShapeToRight();
+    rotateFallingBlocksShapeToRight();
     addTOArrayOfblocksInGameDisplay();
     return;
 }
 
 const updateArrayOfblocksInGameDisplayWithRotateRight = () => {
     removeFromArrayOfblocksInGameDisplay();
-    rotateFallingBlockShapeToRight();
+    rotateFallingBlocksShapeToRight();
     addTOArrayOfblocksInGameDisplay();
     return;
 }
 
 const downgradeArrayOfblocksInGameDisplayWithRotateRight = () => {
     removeFromArrayOfblocksInGameDisplay();
-    rotateFallingBlockShapeToLeft();
+    rotateFallingBlocksShapeToLeft();
     addTOArrayOfblocksInGameDisplay();
     return;
 }
@@ -536,20 +536,20 @@ const checkArrayOfblocksInGameDisplayAfterRotateRight = () => {
     return !hasTwo;
 }
 
-const removeFallingBlockFromDisplay = () => {
+const removeFallingBlocksFromDisplay = () => {
     const fallingBlocks = document.querySelectorAll(".falling-block");
     fallingBlocks.forEach(block => block.remove());
 } 
 
-const updateBlockOnDisplay = () => {
-    removeFallingBlockFromDisplay();
-    putBlockOnDisplay(fallingBlocksObject, gameDisplay);
+const updateBlocksOnDisplay = () => {
+    removeFallingBlocksFromDisplay();
+    putBlocksOnDisplay(fallingBlocksObject, gameDisplay);
 }
 
-const moveDownFallingBlock = () => {
+const moveDownFallingBlocks = () => {
     const canMoveOrRotate = checkArrayOfblocksInGameDisplayAfterMoveDown();
     if (canMoveOrRotate) {
-        updateBlockOnDisplay();
+        updateBlocksOnDisplay();
     }
     return canMoveOrRotate;
 }
@@ -571,7 +571,7 @@ const convertEachFallingBlockTofallenBlock = (topNum, leftNum) => {
     return;
 }
 
-const convertFallingBlockTofallenBlock = () => {
+const convertFallingBlocksTofallenBlocks = () => {
     for (let i = 0; i < blockArrayLnegth; i++) {
         for (let j = 0; j < blockArrayLnegth; j++) {
             if (fallingBlocksObject.shape[i][j] === 1) {
@@ -701,13 +701,13 @@ const deleteFallenBlocks = () => {
 }
 
 const updateTimer = () => {
-    const blockMovedDown = moveDownFallingBlock();
+    const blockMovedDown = moveDownFallingBlocks();
     if (!blockMovedDown) {
-        convertFallingBlockTofallenBlock();
+        convertFallingBlocksTofallenBlocks();
         deleteFallenBlocks();
-        const canPutFallingBlock = !convertNextBlockToFallingBlock();
+        const canPutFallingBlock = !convertNextBlocksToFallingBlocks();
         if (canPutFallingBlock) {
-            generateNextBlock();
+            generateNextBlocks();
         }
     }
     presentTimeSeconds += difficultyPattern.find(pattern => pattern.difficulty === presentDifficulty).interval;
@@ -718,9 +718,9 @@ const updateTimer = () => {
 const startGame = () => {
     toggleDifficultyButtons();
     toggleGameButtons();
-    generateNextBlock();
-    convertNextBlockToFallingBlock();
-    generateNextBlock();
+    generateNextBlocks();
+    convertNextBlocksToFallingBlocks();
+    generateNextBlocks();
     timeInterval = setInterval(updateTimer, presentInterval * 1000);
     return;
 }
@@ -746,42 +746,42 @@ const updateButtonCursors = () => {
     return;
 }
 
-const moveFallingBlockToLeft = () => {
+const moveFallingBlocksToLeft = () => {
     const canMoveOrRotate = checkArrayOfblocksInGameDisplayAfterMoveLeft();
     if (canMoveOrRotate) {
-        updateBlockOnDisplay();
+        updateBlocksOnDisplay();
     }
     return;
 }
 
-const moveFallingBlockToRight = () => {
+const moveFallingBlocksToRight = () => {
     const canMoveOrRotate = checkArrayOfblocksInGameDisplayAfterMoveRight();
     if (canMoveOrRotate) {
-        updateBlockOnDisplay();
+        updateBlocksOnDisplay();
     }
     return;
 }
 
-const rotateFallingBlockToLeft = () => {
+const rotateFallingBlocksToLeft = () => {
     const canMoveOrRotate = checkArrayOfblocksInGameDisplayAfterRotateLeft();
     if (canMoveOrRotate) {
-        updateBlockOnDisplay();
+        updateBlocksOnDisplay();
     }
     return;
 }
 
-const rotateFallingBlockToRight = () => {
+const rotateFallingBlocksToRight = () => {
     const canMoveOrRotate = checkArrayOfblocksInGameDisplayAfterRotateRight();
     if (canMoveOrRotate) {
-        updateBlockOnDisplay();
+        updateBlocksOnDisplay();
     }
     return;
 }
 
-const moveFallingBlockDownCompletely = () => {
+const moveFallingBlocksDownCompletely = () => {
     let blockMovedDown = true;
     while (blockMovedDown) {
-        blockMovedDown = moveDownFallingBlock();
+        blockMovedDown = moveDownFallingBlocks();
     }
 }
 
@@ -802,11 +802,11 @@ easyButton.addEventListener("click", () => updateDifficulty("easy"));
 normalButton.addEventListener("click", () => updateDifficulty("normal"));
 hardButton.addEventListener("click", () => updateDifficulty("hard"));
 
-moveLeftButton.addEventListener("click", moveFallingBlockToLeft);
-moveRightButton.addEventListener("click", moveFallingBlockToRight);
-rotateLeftButton.addEventListener("click", rotateFallingBlockToLeft);
-rotateRightButton.addEventListener("click", rotateFallingBlockToRight);
-moveDownButton.addEventListener("click", moveFallingBlockDownCompletely);
+moveLeftButton.addEventListener("click", moveFallingBlocksToLeft);
+moveRightButton.addEventListener("click", moveFallingBlocksToRight);
+rotateLeftButton.addEventListener("click", rotateFallingBlocksToLeft);
+rotateRightButton.addEventListener("click", rotateFallingBlocksToRight);
+moveDownButton.addEventListener("click", moveFallingBlocksDownCompletely);
 
 // ---ロードイベント---
 const observer = new MutationObserver(updateButtonCursors);
