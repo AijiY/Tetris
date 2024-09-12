@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tetris</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div id="title"><h1>Tetris</h1></div>
+        <div id="game-container">
+            <h2 id="game-over">GameOver</h2>
+            <h2 id="you-win">You Win!</h2>
+            <div id="difficulty-button-container">
+                <button id="easy-button" class="difficulty-button">Easy</button>
+                <button id="normal-button" class="difficulty-button">Normal</button>
+                <button id="hard-button" class="difficulty-button">Hard</button>
+            </div>
+            <div id="game-information-container">
+                <span id="time"></span>
+                <span id="score"></span>
+            </div>
+            <div id="game-button-and-next-block">
+                <div id="game-button-container">
+                    <button id="start-reset-button"></button>
+                    <div id="rotate-button-container">
+                        <button id="rotate-left-button" class="game-button">↶</button>
+                        <button id="rotate-right-button" class="game-button">↷</button>
+                    </div>
+                    <div id="move-button-container">
+                        <button id="move-left-button" class="game-button">←</button>
+                        <button id="move-right-button" class="game-button">→</button>
+                    </div>
+                    <button id="move-down-button" class="game-button">↓</button>
+                </div>
+                <div id="next-block-container">
+                    <p id="next-block-label">NextBlock</p>
+                    <div id="next-block-display"></div>
+                </div>
+            </div>
+            <div id="game-display"></div>
+        </div>
+        <script src="script.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+    </body>
+</html>
